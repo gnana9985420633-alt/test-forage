@@ -1,0 +1,529 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TestForge | QA Intelligence</title>
+<style>
+:root {
+  --bg: #0b1020;
+  --panel: #141b2f;
+  --line: #29344e;
+  --text: #eef2ff;
+  --muted: #98a5c2;
+  --primary: #8b7cff;
+  --green: #37d6a0;
+  --red: #ff7185;
+  --yellow: #ffd166;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.5 system-ui, sans-serif;
+}
+button, input, select, textarea { font: inherit; }
+button { cursor: pointer; }
+header {
+  padding: 22px 5%;
+  background: #11182b;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.brand { display: flex; gap: 12px; align-items: center; }
+.logo {
+  background: var(--primary);
+  color: #fff;
+  width: 44px; height: 44px;
+  border-radius: 13px;
+  display: grid; place-items: center;
+  font-weight: 900; font-size: 21px;
+}
+h1, h2, h3, p { margin-top: 0; }
+h1 { font-size: 21px; margin-bottom: 2px; }
+header p, .muted { color: var(--muted); margin-bottom: 0; }
+main { max-width: 1250px; margin: auto; padding: 28px 20px; }
+.intro {
+  display: flex; justify-content: space-between;
+  align-items: center; gap: 18px; flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+.intro h2 { margin-bottom: 5px; font-size: 26px; }
+.actions, .filters { display: flex; gap: 9px; flex-wrap: wrap; }
+.btn {
+  border: 1px solid var(--line);
+  border-radius: 9px; padding: 10px 14px;
+  background: #202943; color: var(--text);
+}
+.btn.primary { background: var(--primary); border-color: var(--primary); color: white; }
+.btn:hover { filter: brightness(1.12); }
+.stats {
+  display: grid; grid-template-columns: repeat(4,1fr);
+  gap: 14px; margin-bottom: 18px;
+}
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px; padding: 18px;
+  min-width: 0;
+}
+.stat-label { color: var(--muted); font-size: 12px; font-weight: 700; }
+.stat-value { font-size: 32px; font-weight: 800; margin-top: 7px; }
+.green { color: var(--green); }
+.red { color: var(--red); }
+.yellow { color: var(--yellow); }
+.purple { color: var(--primary); }
+.layout { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.card h3 { font-size: 16px; margin-bottom: 15px; }
+.progress {
+  height: 9px; background: #29344e;
+  border-radius: 20px; overflow: hidden; margin: 12px 0 8px;
+}
+.progress div {
+  height: 100%; width: 0; background: var(--green);
+  transition: width .2s;
+}
+.progress-info { display: flex; justify-content: space-between; color: var(--muted); font-size: 12px; }
+.filters { margin-bottom: 14px; }
+input, select, textarea {
+  width: 100%; min-width: 0;
+  color: var(--text); background: #0d1426;
+  border: 1px solid var(--line);
+  border-radius: 8px; padding: 10px 11px;
+}
+.filters input { flex: 1; }
+.filters select { width: 145px; }
+label { display: block; color: var(--muted); font-size: 12px; margin-bottom: 5px; }
+.field { margin-bottom: 12px; }
+textarea { min-height: 75px; resize: vertical; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.test-list { display: grid; gap: 10px; }
+.record {
+  border: 1px solid var(--line); background: #10182b;
+  border-radius: 10px; padding: 13px;
+}
+.record-head { display: flex; justify-content: space-between; gap: 10px; }
+.record-title { font-weight: 750; overflow-wrap: anywhere; }
+.record-meta { display: flex; gap: 6px; flex-wrap: wrap; margin: 9px 0; }
+.tag {
+  border-radius: 20px; padding: 3px 8px;
+  background: #26314b; color: #dbe3ff; font-size: 11px;
+}
+.tag.pass { background: #123a35; color: var(--green); }
+.tag.fail { background: #482430; color: var(--red); }
+.tag.blocked { background: #49391b; color: var(--yellow); }
+.small-actions { display: flex; gap: 7px; margin-top: 10px; }
+.small-actions button { padding: 6px 9px; font-size: 12px; }
+.empty {
+  text-align: center; padding: 25px;
+  color: var(--muted); border: 1px dashed var(--line);
+  border-radius: 10px;
+}
+.defect {
+  padding: 12px 0; border-bottom: 1px solid var(--line);
+}
+.defect:last-child { border-bottom: 0; }
+.defect strong { display: block; margin-bottom: 5px; }
+footer { text-align: center; padding: 25px; color: var(--muted); font-size: 12px; }
+.notice { font-size: 12px; color: var(--muted); margin-top: 12px; }
+@media(max-width:850px) {
+  .stats { grid-template-columns: repeat(2,1fr); }
+  .layout { grid-template-columns: 1fr; }
+}
+@media(max-width:480px) {
+  main { padding: 20px 12px; }
+  .row { grid-template-columns: 1fr; }
+  .intro h2 { font-size: 22px; }
+  .filters select { width: 100%; }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <div class="logo">T</div>
+    <div>
+      <h1>TestForge</h1>
+      <p>Smart QA Testing &amp; Defect Intelligence</p>
+    </div>
+  </div>
+  <div class="actions">
+    <button class="btn" id="exportBtn">Export CSV</button>
+    <button class="btn primary" id="resetBtn">Reset Demo</button>
+  </div>
+</header>
+
+<main>
+  <section class="intro">
+    <div>
+      <h2>Quality command center</h2>
+      <p class="muted">Manage test execution, identify failures, and track defects.</p>
+    </div>
+    <span class="tag">● LOCAL DEMO · LIVE UPDATES</span>
+  </section>
+
+  <section class="stats">
+    <div class="card">
+      <div class="stat-label">TOTAL TESTS</div>
+      <div class="stat-value purple" id="total">0</div>
+    </div>
+    <div class="card">
+      <div class="stat-label">PASSED</div>
+      <div class="stat-value green" id="passed">0</div>
+    </div>
+    <div class="card">
+      <div class="stat-label">FAILED</div>
+      <div class="stat-value red" id="failed">0</div>
+    </div>
+    <div class="card">
+      <div class="stat-label">OPEN DEFECTS</div>
+      <div class="stat-value yellow" id="openDefects">0</div>
+    </div>
+  </section>
+
+  <section class="card" style="margin-bottom:18px">
+    <h3>Test execution progress</h3>
+    <div class="progress"><div id="progressBar"></div></div>
+    <div class="progress-info">
+      <span id="progressText">0% executed</span>
+      <span id="executionCount">0 of 0 tests</span>
+    </div>
+  </section>
+
+  <div class="layout">
+    <section class="card">
+      <h3>Test case management</h3>
+      <form id="testForm">
+        <div class="field">
+          <label for="testTitle">Test case title *</label>
+          <input id="testTitle" required maxlength="120"
+                 placeholder="e.g. Verify login with valid credentials">
+        </div>
+        <div class="field">
+          <label for="expected">Expected result</label>
+          <textarea id="expected" placeholder="What should happen?"></textarea>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="result">Execution result</label>
+            <select id="result">
+              <option value="Not Run">Not Run</option>
+              <option value="Pass">Pass</option>
+              <option value="Fail">Fail</option>
+              <option value="Blocked">Blocked</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="priority">Priority</label>
+            <select id="priority">
+              <option>Medium</option>
+              <option>High</option>
+              <option>Low</option>
+              <option>Critical</option>
+            </select>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn primary" type="submit" id="saveTest">Add test case</button>
+          <button class="btn" type="button" id="cancelEdit" hidden>Cancel edit</button>
+        </div>
+      </form>
+      <p class="notice">Test cases are saved in your browser automatically.</p>
+    </section>
+
+    <section class="card">
+      <h3>Defect reporting</h3>
+      <form id="defectForm">
+        <div class="field">
+          <label for="bugTitle">Defect title *</label>
+          <input id="bugTitle" required maxlength="120"
+                 placeholder="e.g. Login button does not respond">
+        </div>
+        <div class="field">
+          <label for="bugDescription">Steps / actual behavior</label>
+          <textarea id="bugDescription" placeholder="Describe the problem and reproduction steps"></textarea>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="severity">Severity</label>
+            <select id="severity">
+              <option>Medium</option>
+              <option>High</option>
+              <option>Low</option>
+              <option>Critical</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="bugStatus">Defect status</label>
+            <select id="bugStatus">
+              <option>Open</option>
+              <option>In Progress</option>
+              <option>Fixed</option>
+              <option>Closed</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn primary" type="submit">Report defect</button>
+      </form>
+    </section>
+  </div>
+
+  <section class="card" style="margin-top:18px">
+    <h3>Test execution board</h3>
+    <div class="filters">
+      <input id="search" placeholder="Search test cases..." aria-label="Search test cases">
+      <select id="statusFilter" aria-label="Filter test cases">
+        <option value="All">All results</option>
+        <option>Not Run</option>
+        <option>Pass</option>
+        <option>Fail</option>
+        <option>Blocked</option>
+      </select>
+    </div>
+    <div class="test-list" id="testList"></div>
+  </section>
+
+  <section class="card" style="margin-top:18px">
+    <h3>Defect register</h3>
+    <div id="defectList"></div>
+  </section>
+</main>
+
+<footer>TestForge · Internship Software Testing Project · HTML, CSS &amp; JavaScript</footer>
+
+<script>
+const TEST_KEY = "testforge_cases_v1";
+const BUG_KEY = "testforge_defects_v1";
+const $ = id => document.getElementById(id);
+const makeId = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+
+const demoTests = [
+  {id:"T001",title:"Login with valid credentials",expected:"User reaches dashboard",result:"Pass",priority:"High"},
+  {id:"T002",title:"Login with incorrect password",expected:"An error message is displayed",result:"Fail",priority:"Critical"},
+  {id:"T003",title:"Registration with missing email",expected:"Validation prevents submission",result:"Not Run",priority:"Medium"},
+  {id:"T004",title:"Logout from the application",expected:"Session ends and login screen appears",result:"Blocked",priority:"Low"}
+];
+const demoBugs = [
+  {id:"B001",title:"Incorrect password error is not clear",description:"Enter an invalid password on the login page.",severity:"Medium",status:"Open"},
+  {id:"B002",title:"Dashboard does not load after login",description:"Reproduced intermittently on the demo test scenario.",severity:"High",status:"In Progress"}
+];
+
+function readStore(key, fallback) {
+  try {
+    const data = localStorage.getItem(key);
+    return data === null ? fallback.map(x => ({...x})) : JSON.parse(data);
+  } catch {
+    return fallback.map(x => ({...x}));
+  }
+}
+let tests = readStore(TEST_KEY, demoTests);
+let bugs = readStore(BUG_KEY, demoBugs);
+let editingId = null;
+
+function save() {
+  localStorage.setItem(TEST_KEY, JSON.stringify(tests));
+  localStorage.setItem(BUG_KEY, JSON.stringify(bugs));
+  render();
+}
+function esc(value) {
+  return String(value ?? "").replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;"
+  })[c]);
+}
+function badgeClass(result) {
+  return result === "Pass" ? "pass" :
+         result === "Fail" ? "fail" :
+         result === "Blocked" ? "blocked" : "";
+}
+function render() {
+  const passed = tests.filter(t => t.result === "Pass").length;
+  const failed = tests.filter(t => t.result === "Fail").length;
+  const executed = tests.filter(t => ["Pass","Fail","Blocked"].includes(t.result)).length;
+  const open = bugs.filter(b => !["Closed","Fixed"].includes(b.status)).length;
+  const pct = tests.length ? Math.round(executed / tests.length * 100) : 0;
+
+  $("total").textContent = tests.length;
+  $("passed").textContent = passed;
+  $("failed").textContent = failed;
+  $("openDefects").textContent = open;
+  $("progressBar").style.width = pct + "%";
+  $("progressText").textContent = pct + "% executed";
+  $("executionCount").textContent = executed + " of " + tests.length + " tests";
+
+  const q = $("search").value.trim().toLowerCase();
+  const filter = $("statusFilter").value;
+  const visible = tests.filter(t =>
+    (!q || (t.title + " " + t.expected).toLowerCase().includes(q)) &&
+    (filter === "All" || t.result === filter)
+  );
+
+  $("testList").innerHTML = visible.length ? visible.map(t => `
+    <article class="record">
+      <div class="record-head">
+        <div>
+          <div class="record-title">${esc(t.title)}</div>
+          <div class="muted" style="font-size:12px">${esc(t.id)}</div>
+        </div>
+        <span class="tag ${badgeClass(t.result)}">${esc(t.result)}</span>
+      </div>
+      <p class="muted" style="margin:8px 0 0;font-size:13px">
+        Expected: ${esc(t.expected || "Not specified")}
+      </p>
+      <div class="record-meta">
+        <span class="tag">${esc(t.priority)} priority</span>
+      </div>
+      <div class="small-actions">
+        <button class="btn" data-result="Pass" data-id="${esc(t.id)}">Pass</button>
+        <button class="btn" data-result="Fail" data-id="${esc(t.id)}">Fail</button>
+        <button class="btn" data-result="Blocked" data-id="${esc(t.id)}">Blocked</button>
+        <button class="btn" data-edit="${esc(t.id)}">Edit</button>
+        <button class="btn" data-delete="${esc(t.id)}">Delete</button>
+      </div>
+    </article>
+  `).join("") : '<div class="empty">No test cases found. Add a test or change the filter.</div>';
+
+  $("defectList").innerHTML = bugs.length ? bugs.map(b => `
+    <article class="defect">
+      <strong>${esc(b.title)}</strong>
+      <p class="muted" style="font-size:13px;margin-bottom:8px">${esc(b.description || "No reproduction steps supplied.")}</p>
+      <div class="record-meta">
+        <span class="tag">${esc(b.id)}</span>
+        <span class="tag">${esc(b.severity)} severity</span>
+        <span class="tag ${b.status === "Open" ? "fail" : b.status === "Closed" || b.status === "Fixed" ? "pass" : "blocked"}">${esc(b.status)}</span>
+      </div>
+      <div class="small-actions">
+        <select data-bug-status="${esc(b.id)}" aria-label="Update defect status">
+          ${["Open","In Progress","Fixed","Closed"].map(s => `<option ${s === b.status ? "selected" : ""}>${s}</option>`).join("")}
+        </select>
+        <button class="btn" data-bug-delete="${esc(b.id)}">Delete defect</button>
+      </div>
+    </article>
+  `).join("") : '<div class="empty">No defects recorded yet.</div>';
+}
+
+$("testForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const title = $("testTitle").value.trim();
+  if (!title) return;
+  const values = {
+    title,
+    expected: $("expected").value.trim(),
+    result: $("result").value,
+    priority: $("priority").value
+  };
+  if (editingId) {
+    tests = tests.map(t => t.id === editingId ? {...t, ...values} : t);
+  } else {
+    tests.unshift({id:"T-" + makeId(), ...values});
+  }
+  save();
+  resetForm();
+});
+
+function resetForm() {
+  editingId = null;
+  $("testForm").reset();
+  $("saveTest").textContent = "Add test case";
+  $("cancelEdit").hidden = true;
+}
+
+$("cancelEdit").addEventListener("click", resetForm);
+
+$("testList").addEventListener("click", e => {
+  const target = e.target;
+  if (!(target instanceof HTMLElement)) return;
+  const id = target.dataset.id;
+  const editId = target.dataset.edit;
+  const deleteId = target.dataset.delete;
+
+  if (id && target.dataset.result) {
+    tests = tests.map(t => t.id === id ? {...t, result:target.dataset.result} : t);
+    save();
+  }
+  if (editId) {
+    const t = tests.find(x => x.id === editId);
+    if (!t) return;
+    editingId = t.id;
+    $("testTitle").value = t.title;
+    $("expected").value = t.expected;
+    $("result").value = t.result;
+    $("priority").value = t.priority;
+    $("saveTest").textContent = "Save changes";
+    $("cancelEdit").hidden = false;
+    $("testTitle").focus();
+  }
+  if (deleteId && confirm("Delete this test case?")) {
+    tests = tests.filter(t => t.id !== deleteId);
+    if (editingId === deleteId) resetForm();
+    save();
+  }
+});
+
+$("defectForm").addEventListener("submit", e => {
+  e.preventDefault();
+  const title = $("bugTitle").value.trim();
+  if (!title) return;
+  bugs.unshift({
+    id:"B-" + makeId(),
+    title,
+    description:$("bugDescription").value.trim(),
+    severity:$("severity").value,
+    status:$("bugStatus").value
+  });
+  $("defectForm").reset();
+  save();
+});
+
+$("defectList").addEventListener("change", e => {
+  const target = e.target;
+  if (!(target instanceof HTMLSelectElement) || !target.dataset.bugStatus) return;
+  bugs = bugs.map(b => b.id === target.dataset.bugStatus ? {...b, status:target.value} : b);
+  save();
+});
+$("defectList").addEventListener("click", e => {
+  const target = e.target;
+  if (!(target instanceof HTMLElement) || !target.dataset.bugDelete) return;
+  if (confirm("Delete this defect?")) {
+    bugs = bugs.filter(b => b.id !== target.dataset.bugDelete);
+    save();
+  }
+});
+
+$("search").addEventListener("input", render);
+$("statusFilter").addEventListener("change", render);
+
+$("resetBtn").addEventListener("click", () => {
+  if (!confirm("Replace your current records with the demo data?")) return;
+  tests = demoTests.map(x => ({...x}));
+  bugs = demoBugs.map(x => ({...x}));
+  resetForm();
+  save();
+});
+
+$("exportBtn").addEventListener("click", () => {
+  const quote = v => '"' + String(v ?? "").replace(/"/g, '""') + '"';
+  const rows = [
+    ["Record Type","ID","Title","Details","Result / Status","Priority / Severity"],
+    ...tests.map(t => ["Test",t.id,t.title,t.expected,t.result,t.priority]),
+    ...bugs.map(b => ["Defect",b.id,b.title,b.description,b.status,b.severity])
+  ];
+  const csv = rows.map(row => row.map(quote).join(",")).join("\r\n");
+  const blob = new Blob(["\uFEFF" + csv], {type:"text/csv;charset=utf-8;"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "testforge-report.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+render();
+</script>
+</body>
+</html>
